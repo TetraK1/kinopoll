@@ -1,0 +1,17 @@
+body {
+    font-family: sans-serif;
+}
+
+.poll-title {
+    font-size: 24px;
+}
+
+.question-title {
+    font-size: 18px;
+}
+
+.question {
+    border-style: solid;
+    border-width: 1px;
+    margin: 5px;
+}

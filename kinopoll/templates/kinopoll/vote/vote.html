@@ -1,0 +1,7 @@
+{% load static %}
+<head>
+<link rel="stylesheet" href="{% static 'kinopoll/pollvote.css' %}">
+</head>
+<body>
+{{ poll.render_vote|safe }}
+</body>

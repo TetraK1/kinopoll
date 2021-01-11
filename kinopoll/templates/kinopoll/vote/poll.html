@@ -1,0 +1,6 @@
+<div class="poll-title">{{ poll.title }}</h1>
+{% for q in questions %}
+<div class="question">
+{{ q.render_vote|safe }}
+</div>
+{% endfor %}
