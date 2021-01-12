@@ -6,7 +6,8 @@ from . import models
 
 # Create your views here.
 def index(request):
-    return HttpResponse("Hello, world. You're at the polls index.")
+    polls = models.Poll.objects.all()
+    return render(request, 'kinopoll/index.html', {'polls': polls})
 
 def vote(request, poll_id):
     poll = get_object_or_404(models.Poll, pk=poll_id)

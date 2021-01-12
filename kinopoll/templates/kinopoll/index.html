@@ -1,0 +1,10 @@
+{% load static %}
+<head>
+    <link rel="stylesheet" href={% static 'kinopoll/main.css' %}>
+</head>
+Polls:
+<ul>
+{% for poll in polls %}
+<li><a href="polls/{{poll.pk}}/vote">{{ poll.title }}</a></li>
+{% endfor %}
+</ul>

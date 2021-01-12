@@ -41,7 +41,9 @@ class TextAnswer(Answer):
 
 # Multiple Choice Question
 class MultipleChoiceQuestion(Question):
-    pass
+    def render_vote(self):
+        template = loader.get_template('kinopoll/vote/multiplechoicequestion.html')
+        return template.render({'question': self, 'options': self.multiplechoiceoption_set.all()})
 
 class MultipleChoiceOption(models.Model):
     question = models.ForeignKey(MultipleChoiceQuestion, models.CASCADE)
@@ -52,7 +54,9 @@ class MultipleChoiceAnswer(Answer):
 
 # Ranking Question
 class RankedQuestion(Question):
-    pass
+    def render_vote(self):
+        template = loader.get_template('kinopoll/vote/rankedquestion.html')
+        return template.render({'question': self, 'options': self.rankedoption_set.all()})
 
 class RankedOption(models.Model):
     question = models.ForeignKey(RankedQuestion, models.CASCADE)

@@ -1,0 +1,8 @@
+{% extends 'kinopoll/vote/question.html' %}
+{% block question_content %}
+{% for option in options %}
+<input type="radio" id="{{option.pk}}" name="{{question.pk}}" value="{{option.pk}}">
+<label for="{{option.pk}}">{{option.text}}</label>
+<br>
+{% endfor %}
+{% endblock %}

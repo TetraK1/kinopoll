@@ -1,0 +1,19 @@
+{% extends 'kinopoll/vote/question.html' %}
+{% block question_content %}
+<div class="ranked-lists">
+   <div class="ranked-list ranked-selection">
+      <div class="ranked-title">Your ranking</div>
+      <ol class="sortable">
+          <li>t</li>
+      </ol>
+   </div>
+   <div class="ranked-list ranked-choices">
+      <div class="ranked-title">Available choices</div>
+      <ul class="sortable">
+         {% for option in options %}
+         <li>{{ option.text }}</li>
+         {% endfor %}
+      </ul>
+   </div>
+</div>
+{% endblock %}
