@@ -1,5 +1,7 @@
-<div class="question-title">{{ question.text }}</div>
-<div class="question-content">
-{% block question_content %}
-{% endblock %}
+<div class="question" id="question-{{question.id}}">
+    <div class="question-title">{{ question.text }}</div>
+    <div class="question-content">
+    {% block question_content %}
+    {% endblock %}
+    </div>
 </div>

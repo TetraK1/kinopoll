@@ -1,46 +1,23 @@
 div.poll {
     max-width: 800px;
-    margin: auto;
 }
 
 .poll-title {
     font-size: 24px;
-}
-
-.question-title {
-    font-size: 18px;
-    padding-bottom: 10px;
+    margin: 5px;
 }
 
 .question {
     border-style: solid;
     border-width: 1px;
-    padding: 5px;
     margin: 5px;
 }
 
-.ranked-lists {
-    display: flex;
-    border: 1px solid;
-}
-
-.ranked-title {
+.question-title {
+    font-size: 18px;
     margin: 5px;
 }
 
-.ranked-list {
-    flex: 1 1 0;
-    margin: 5px;
-    border: 1px solid;
-}
-
-.sortable {
-    border: 1px solid;
-    margin: 5px;
-}
-
-.sortable li {
-    border: 1px solid;
-    padding: 5px;
+.question-content {
     margin: 5px;
 }

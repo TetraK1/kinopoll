@@ -1,0 +1,27 @@
+.ranked-lists {
+    display: flex;
+}
+
+.ranked-title {
+    margin: 5px;
+    border-bottom: solid 1px;
+}
+
+.ranked-list {
+    flex: 1 1 0;
+    border: 1px solid;
+    margin: 5px;
+    display: flex;
+    flex-direction: column;
+}
+
+.sortable {
+    margin: 5px;
+    flex: 1 1 0;
+}
+
+.sortable li {
+    border: 1px solid;
+    margin: 5px;
+    padding: 5px;
+}

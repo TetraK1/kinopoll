@@ -12,6 +12,8 @@ class Poll(models.Model):
         questions = self.question_set.all().select_subclasses()
         return template.render({'poll': self, 'questions': questions})
 
+    def __str__(self): return self.title
+
 class Response(models.Model):
     pass
 
@@ -25,6 +27,8 @@ class Question(models.Model):
     def render_vote(self):
         template = loader.get_template('kinopoll/vote/question.html')
         return template.render({'question': self})
+
+    def __str__(self): return f'{self.poll.title} - {self.text}'
 
 class Answer(models.Model):
     response = models.ForeignKey(Response, models.CASCADE)
