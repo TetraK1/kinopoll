@@ -1,8 +1,9 @@
 {% extends 'kinopoll/vote/question.html' %}
+{% block question_class %}multiple-choice-question{% endblock %}
 {% block question_content %}
 {% for option in options %}
-<input type="radio" id="{{option.pk}}" name="{{question.pk}}" value="{{option.pk}}">
-<label for="{{option.pk}}">{{option.text}}</label>
+<input type="radio" id="multiple-choice-option-{{option.pk}}" name="question-{{question.pk}}" value="{{option.pk}}">
+<label for="multiple-choice-option-{{option.pk}}">{{option.text}}</label>
 <br>
 {% endfor %}
 {% endblock %}

@@ -16,9 +16,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 from django.http import HttpResponse
+from django.shortcuts import redirect
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('kinopoll/', include('kinopoll.urls')),
-    path('', lambda _: HttpResponse('''u gay''')),
+    path('', lambda _: redirect('kinopoll/')),
+    path('kinopoll/', include('kinopoll.urls'))
 ]

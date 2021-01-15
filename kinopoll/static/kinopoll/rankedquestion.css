@@ -2,21 +2,33 @@
     display: flex;
 }
 
-.ranked-title {
+.ranked-list {
+    border: 1px solid;
     margin: 5px;
+
+    flex: 1 1 0;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.ranked-list-title {
+    margin: 5px;
+    margin-bottom: 0;
     border-bottom: solid 1px;
 }
 
-.ranked-list {
+.ranked-list-content {
     flex: 1 1 0;
-    border: 1px solid;
-    margin: 5px;
+
     display: flex;
     flex-direction: column;
 }
 
 .sortable {
     margin: 5px;
+    border: dotted 1px;
+
     flex: 1 1 0;
 }
 
@@ -24,4 +36,5 @@
     border: 1px solid;
     margin: 5px;
     padding: 5px;
+    background-color: white;
 }
