@@ -1,12 +1,14 @@
 {% load static %}
+
 <head>
-<link rel="stylesheet" href="{% static 'kinopoll/main.css' %}">
-<link rel="stylesheet" href="{% static 'kinopoll/pollvote.css' %}">
-<link rel="stylesheet" href="{% static 'kinopoll/rankedquestion.css' %}">
-<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<script src="{% static 'kinopoll/pollvote.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'kinopoll/main.css' %}">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 </head>
+
 <body>
-{{ poll.render_vote|safe }}
+    <div id="react"></div>
+    <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+    <script src="{% static 'kinopoll/vote.js' %}" type="text/babel"></script>
 </body>

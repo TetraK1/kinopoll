@@ -19,7 +19,5 @@ from django.http import HttpResponse
 from django.shortcuts import redirect
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', lambda _: redirect('kinopoll/')),
-    path('kinopoll/', include('kinopoll.urls'))
+    path('', include('kinopoll.urls')),
 ]

@@ -6,51 +6,41 @@ from model_utils.managers import InheritanceManager
 # Base classes
 class Poll(models.Model):
     title = models.CharField(max_length=200)
-
-    def render_vote(self):
-        template = loader.get_template('kinopoll/vote/poll.html')
-        questions = self.question_set.all().select_subclasses()
-        return template.render({'poll': self, 'questions': questions})
-
-    def __str__(self): return self.title
+    class Meta:
+        ordering = ['id']
 
 class Response(models.Model):
-    pass
+    poll = models.ForeignKey(Poll, on_delete=models.CASCADE, related_name='responses')
 
 class Question(models.Model):
-    text = models.CharField(max_length=200)
+    title = models.CharField(max_length=200)
     poll = models.ForeignKey(Poll, on_delete=models.CASCADE)
     # adds select_subclasses() as a method on querysets that turns all
     # instances in the set into their actual subclass
-    objects = InheritanceManager()
-    
-    def render_vote(self):
-        template = loader.get_template('kinopoll/vote/question.html')
-        return template.render({'question': self})
+    # objects = InheritanceManager()
+    class Meta:
+        abstract = True
 
-    def __str__(self): return f'{self.poll.title} - {self.text}'
 
 class Answer(models.Model):
     response = models.ForeignKey(Response, models.CASCADE)
     question = models.ForeignKey(Question, models.CASCADE)
+    class Meta:
+        abstract = True
 
 # Text Question
 class TextQuestion(Question):
-    def render_vote(self):
-        template = loader.get_template('kinopoll/vote/textquestion.html')
-        return template.render({'question': self})
+    pass
 
 class TextAnswer(Answer):
     answer_text = models.CharField(max_length=200)
 
 # Multiple Choice Question
 class MultipleChoiceQuestion(Question):
-    def render_vote(self):
-        template = loader.get_template('kinopoll/vote/multiplechoicequestion.html')
-        return template.render({'question': self, 'options': self.multiplechoiceoption_set.all()})
+    pass
 
 class MultipleChoiceOption(models.Model):
-    question = models.ForeignKey(MultipleChoiceQuestion, models.CASCADE)
+    question = models.ForeignKey(MultipleChoiceQuestion, models.CASCADE, related_name='options')
     text = models.CharField(max_length=200)
 
 class MultipleChoiceAnswer(Answer):
@@ -58,9 +48,7 @@ class MultipleChoiceAnswer(Answer):
 
 # Ranking Question
 class RankedQuestion(Question):
-    def render_vote(self):
-        template = loader.get_template('kinopoll/vote/rankedquestion.html')
-        return template.render({'question': self, 'options': self.rankedoption_set.all()})
+    pass
 
 class RankedOption(models.Model):
     question = models.ForeignKey(RankedQuestion, models.CASCADE)
