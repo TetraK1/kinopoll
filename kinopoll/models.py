@@ -1,32 +1,37 @@
 from django.db import models
 from django.template import loader
 
+from polymorphic.models import PolymorphicModel
+
 from model_utils.managers import InheritanceManager
 
 # Base classes
 class Poll(models.Model):
     title = models.CharField(max_length=200)
+    description = models.TextField()
+    #creation date
+    #owner
     class Meta:
         ordering = ['id']
 
+    def __str__(self):
+        return f'{self.title}'
+
 class Response(models.Model):
+    #date
+    #user
     poll = models.ForeignKey(Poll, on_delete=models.CASCADE, related_name='responses')
 
-class Question(models.Model):
+class Question(PolymorphicModel):
     title = models.CharField(max_length=200)
+    description = models.TextField()
     poll = models.ForeignKey(Poll, on_delete=models.CASCADE)
-    # adds select_subclasses() as a method on querysets that turns all
-    # instances in the set into their actual subclass
-    # objects = InheritanceManager()
-    class Meta:
-        abstract = True
 
+    def __str__(self):
+        return f'{self.title}'
 
-class Answer(models.Model):
+class Answer(PolymorphicModel):
     response = models.ForeignKey(Response, models.CASCADE)
-    question = models.ForeignKey(Question, models.CASCADE)
-    class Meta:
-        abstract = True
 
 # Text Question
 class TextQuestion(Question):
@@ -44,6 +49,7 @@ class MultipleChoiceOption(models.Model):
     text = models.CharField(max_length=200)
 
 class MultipleChoiceAnswer(Answer):
+    question = models.ForeignKey(MultipleChoiceQuestion, models.CASCADE)
     choice = models.ForeignKey(MultipleChoiceOption, models.CASCADE)
 
 # Ranking Question
@@ -55,5 +61,6 @@ class RankedOption(models.Model):
     text = models.CharField(max_length=200)
 
 class RankedAnswer(Answer):
+    question = models.ForeignKey(RankedQuestion, models.CASCADE)
     option = models.ForeignKey(RankedOption, models.CASCADE)
     ranking = models.IntegerField()

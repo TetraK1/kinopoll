@@ -20,4 +20,5 @@ from django.shortcuts import redirect
 
 urlpatterns = [
     path('', include('kinopoll.urls')),
+    path('admin/', admin.site.urls)
 ]

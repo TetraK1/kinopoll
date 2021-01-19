@@ -1,39 +1,43 @@
 from django.contrib.auth.models import User, Group
 from rest_framework import serializers
+from rest_polymorphic.serializers import PolymorphicSerializer
+
 from kinopoll.models import *
+
+class PollSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Poll
+        fields = ['id', 'title', 'description']
+
+class ResponseSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Response
+        fields = ['id', 'poll']
 
 class QuestionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Question
-        fields = ['id', 'title', 'poll']
+        fields = ['id', 'poll', 'title', 'description']
 
-class MultipleChoiceOptionSerializer(serializers.ModelSerializer):
+class TextQuestionSerializer(serializers.ModelSerializer):
     class Meta:
-        model = MultipleChoiceOption
-        fields = ['text']
+        model = Question
+        fields = ['id', 'poll', 'title', 'description']
+
+class RankedQuestionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Question
+        fields = ['id', 'poll', 'title', 'description']
 
 class MultipleChoiceQuestionSerializer(serializers.ModelSerializer):
-    options = MultipleChoiceOptionSerializer(many=True)
     class Meta:
-        model = MultipleChoiceQuestion
-        fields = QuestionSerializer.Meta.fields + ['options']
+        model = Question
+        fields = ['id', 'poll', 'title', 'description']
 
-class AnswerSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Answer
-        fields = ['question', 'response']
-
-class ResponseSerializer(serializers.ModelSerializer):
-    answers = AnswerSerializer(many=True)
-    class Meta:
-        model = Response
-        fields = ['poll', 'answers']
-
-class PollSerializer(serializers.ModelSerializer):
-    #questions = serializers.PrimaryKeyRelatedField(many=True, queryset=Question.objects.all())
-    questions = QuestionSerializer(many=True)
-    #responses = serializers.PrimaryKeyRelatedField(many=True, queryset=Response.objects.all())
-    #responses = ResponseSerializer(many=True)
-    class Meta:
-        model = Poll
-        fields = ['id', 'title', 'questions']
+class QuestionPolymorphicSerializer(PolymorphicSerializer):
+    model_serializer_mapping = {
+        Question: QuestionSerializer,
+        TextQuestion: TextQuestionSerializer,
+        MultipleChoiceQuestion: MultipleChoiceQuestionSerializer,
+        RankedQuestion: RankedQuestionSerializer,
+    }
