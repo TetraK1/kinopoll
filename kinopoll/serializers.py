@@ -4,11 +4,6 @@ from rest_polymorphic.serializers import PolymorphicSerializer
 
 from kinopoll.models import *
 
-class PollSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Poll
-        fields = ['id', 'title', 'description']
-
 class ResponseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Response
@@ -41,3 +36,9 @@ class QuestionPolymorphicSerializer(PolymorphicSerializer):
         MultipleChoiceQuestion: MultipleChoiceQuestionSerializer,
         RankedQuestion: RankedQuestionSerializer,
     }
+
+class PollSerializer(serializers.ModelSerializer):
+    questions = QuestionPolymorphicSerializer(source='question_set', many=True)
+    class Meta:
+        model = Poll
+        fields = ['id', 'title', 'description', 'questions']

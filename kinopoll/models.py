@@ -32,6 +32,7 @@ class Question(PolymorphicModel):
 
 class Answer(PolymorphicModel):
     response = models.ForeignKey(Response, models.CASCADE)
+    question = models.ForeignKey(Question, models.CASCADE)
 
 # Text Question
 class TextQuestion(Question):
@@ -45,11 +46,9 @@ class MultipleChoiceQuestion(Question):
     pass
 
 class MultipleChoiceOption(models.Model):
-    question = models.ForeignKey(MultipleChoiceQuestion, models.CASCADE, related_name='options')
     text = models.CharField(max_length=200)
 
 class MultipleChoiceAnswer(Answer):
-    question = models.ForeignKey(MultipleChoiceQuestion, models.CASCADE)
     choice = models.ForeignKey(MultipleChoiceOption, models.CASCADE)
 
 # Ranking Question
@@ -61,6 +60,5 @@ class RankedOption(models.Model):
     text = models.CharField(max_length=200)
 
 class RankedAnswer(Answer):
-    question = models.ForeignKey(RankedQuestion, models.CASCADE)
     option = models.ForeignKey(RankedOption, models.CASCADE)
     ranking = models.IntegerField()

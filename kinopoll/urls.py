@@ -18,7 +18,7 @@ urlpatterns = [
     path('polls/<int:pk>/', views.PollViewSet.as_view({'get': 'retrieve'})),
 
     path('polls/<int:poll_id>/questions/', views.QuestionViewSet.as_view({'get': 'list'})),
-    path('polls/<int:poll_id>/questions/<int:pk>/', views.QuestionViewSet.as_view({'get': 'retrieve'})),
+    path('polls/<int:poll_id>/questions/<int:pk>/', views.QuestionViewSet.as_view({'get': 'retrieve'}), name='question-detail'),
 
     path('polls/<int:poll_id>/responses/', views.ResponseViewSet.as_view({'get': 'list'})),
     path('polls/<int:poll_id>/responses/<int:pk>/', views.ResponseViewSet.as_view({'get': 'retrieve'})),
