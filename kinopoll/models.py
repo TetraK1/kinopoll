@@ -1,64 +1,34 @@
 from django.db import models
 from django.template import loader
 
-from polymorphic.models import PolymorphicModel
-
-from model_utils.managers import InheritanceManager
-
-# Base classes
 class Poll(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField()
-    #creation date
-    #owner
-    class Meta:
-        ordering = ['id']
 
     def __str__(self):
         return f'{self.title}'
 
-class Response(models.Model):
-    #date
-    #user
-    poll = models.ForeignKey(Poll, on_delete=models.CASCADE, related_name='responses')
+class Question(models.Model):
+    class QuestionTypes(models.TextChoices):
+        TEXT = 'TEXT'
+        RANKED = 'RANKED'
+        MULTIPLE_CHOICE = 'MULTIPLE_CHOICE'
 
-class Question(PolymorphicModel):
+    poll = models.ForeignKey(Poll, on_delete=models.CASCADE)
+    question_type = models.CharField(max_length=50, choices=QuestionTypes.choices, default=QuestionTypes.TEXT)
     title = models.CharField(max_length=200)
     description = models.TextField()
-    poll = models.ForeignKey(Poll, on_delete=models.CASCADE)
 
     def __str__(self):
         return f'{self.title}'
 
-class Answer(PolymorphicModel):
-    response = models.ForeignKey(Response, models.CASCADE)
-    question = models.ForeignKey(Question, models.CASCADE)
+class Option(models.Model):
+    #extra data needed by any questions, e.g. options for multiple choice questions
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    position = models.IntegerField()
+    text = models.TextField()
+    #data can be switched on later when moving to postgres
+    #data = models.JSONField()
 
-# Text Question
-class TextQuestion(Question):
-    pass
-
-class TextAnswer(Answer):
-    answer_text = models.CharField(max_length=200)
-
-# Multiple Choice Question
-class MultipleChoiceQuestion(Question):
-    pass
-
-class MultipleChoiceOption(models.Model):
-    text = models.CharField(max_length=200)
-
-class MultipleChoiceAnswer(Answer):
-    choice = models.ForeignKey(MultipleChoiceOption, models.CASCADE)
-
-# Ranking Question
-class RankedQuestion(Question):
-    pass
-
-class RankedOption(models.Model):
-    question = models.ForeignKey(RankedQuestion, models.CASCADE)
-    text = models.CharField(max_length=200)
-
-class RankedAnswer(Answer):
-    option = models.ForeignKey(RankedOption, models.CASCADE)
-    ranking = models.IntegerField()
+    def __str__(self):
+        return f'{self.question.title} - {self.text[:50]}'
