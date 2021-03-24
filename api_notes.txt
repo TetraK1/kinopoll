@@ -1,0 +1,8 @@
+data=data dict passed to serializer
+is_valid does validation
+save() essentially returns create() call
+create essential returns model.create(data=data)
+
+poll, question, option, and other poll design data structures should each have their own endpoints and be connected by hyperlinks as not a lot of cross-structure validation is needed and to make polls easily modifiable.  
+
+responses, answers, and answer options should only be postable as responses when response validation can take place.  Getting individually might be allowable for result collation and processing.

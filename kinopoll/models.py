@@ -14,7 +14,7 @@ class Question(models.Model):
         RANKED = 'RANKED'
         MULTIPLE_CHOICE = 'MULTIPLE_CHOICE'
 
-    poll = models.ForeignKey(Poll, on_delete=models.CASCADE)
+    poll = models.ForeignKey(Poll, on_delete=models.CASCADE, related_name='questions')
     question_type = models.CharField(max_length=50, choices=QuestionTypes.choices, default=QuestionTypes.TEXT)
     title = models.CharField(max_length=200)
     description = models.TextField()
@@ -24,9 +24,9 @@ class Question(models.Model):
 
 class Option(models.Model):
     #extra data needed by any questions, e.g. options for multiple choice questions
-    question = models.ForeignKey(Question, on_delete=models.CASCADE)
-    position = models.IntegerField()
-    text = models.TextField()
+    question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='options')
+    position = models.IntegerField(blank=True)
+    text = models.TextField(blank=True)
     #data can be switched on later when moving to postgres
     #data = models.JSONField()
 

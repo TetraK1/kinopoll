@@ -10,14 +10,14 @@ class OptionSerializer(serializers.ModelSerializer):
         fields = ['id', 'question', 'position', 'text']
 
 class QuestionSerializer(serializers.ModelSerializer):
+    options = serializers.HyperlinkedRelatedField(view_name='option-detail', many=True, read_only=True)
     poll = serializers.HyperlinkedRelatedField(view_name='poll-detail', read_only=True)
-    option_set = serializers.HyperlinkedRelatedField(many=True, view_name='option-detail', read_only=True)
     class Meta:
         model = models.Question
-        fields = ['id', 'poll', 'question_type', 'title', 'description', 'option_set']
+        fields = ['id', 'poll', 'question_type', 'title', 'description', 'options']
 
 class PollSerializer(serializers.ModelSerializer):
-    question_set = serializers.HyperlinkedRelatedField(many=True, view_name='question-detail', read_only=True)
+    questions = serializers.HyperlinkedRelatedField(view_name='question-detail', many=True, read_only=True)
     class Meta:
         model = models.Poll
-        fields = ['id', 'title', 'description', 'question_set']
+        fields = ['id', 'title', 'description', 'questions']

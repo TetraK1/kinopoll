@@ -13,12 +13,22 @@ class PollViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.PollSerializer
 
 class QuestionViewSet(viewsets.ModelViewSet):
-    queryset = models.Question.objects.all()
     serializer_class = serializers.QuestionSerializer
 
+    def get_queryset(self):
+        queryset = models.Question.objects.all()
+        poll_id = self.request.query_params.get('poll', None)
+        if poll_id is not None: queryset = queryset.filter(poll__id=poll_id)
+        return queryset
+
 class OptionViewSet(viewsets.ModelViewSet):
-    queryset = models.Option.objects.all()
     serializer_class = serializers.OptionSerializer
+
+    def get_queryset(self):
+        queryset = models.Option.objects.all()
+        question_id = self.request.query_params.get('question', None)
+        if question_id is not None: queryset = queryset.filter(question__id=question_id)
+        return queryset
 
 #@api_view(['GET'])
 #def api_root(request, format=None):
